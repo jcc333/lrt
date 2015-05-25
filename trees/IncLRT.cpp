@@ -4,11 +4,3 @@
 //
 
 #include "IncLRT.h"
-
-bool IncLRT::isInclusive() {
-    return true;
-}
-
-vector<LRT<T>>*IncLRT::getChildren() {
-    return this->children;
-}

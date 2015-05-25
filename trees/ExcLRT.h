@@ -14,9 +14,13 @@ class ExcLRT : public LRT<T> {
     Node<T> child;
 
 public:
-    vector<LRT<T>>* getChildren();
+    map<T*, LRT<T>>* getChildren() {
+//        return new map<T*, LRT<T>*> { child.getVertex()};
+    }
 
     bool isInclusive();
+
+    bool isCompatibleWith(LRT<T>* that);
 };
 
 #endif //__ExcLRT_H_

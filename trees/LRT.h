@@ -8,26 +8,51 @@
 #define __LabeledRootedTree_H_
 
 #include <utility>
-#include <vector>
+#include <map>
 #include "Node.h"
-#include "Arrow.h"
+#include "LRT.h"
+#include "IncLRT.h"
+#include "ExcLRT.h"
 
-using std::vector;
+using std::map;
 
 template <class T>
 class LRT {
     Node<T>* node;
 
 public:
-    static LRT<T> root();
 
-    static LRT<T> root(vector<LRT<T>> *children);
+    LRT<T> root(map<T*, LRT<T>> *children) {
+        return new IncLRT<T>(children);
+    }
 
-    static LRT<T> leaf(T* t);
+    LRT<T> root() {
+        return new IncLRT();
+    }
 
-    static LRT<T> inc(T* t, vector<LRT<T>> *children);
+    LRT<T> inc(T* t, map<T*, LRT<T>>* children) {
+        return new IncLRT<T>(t, children);
+    }
 
-    static LRT<T> exc(T* t, LRT<T> *child);
+    LRT<T> exc(T* t, LRT<T>* child) {
+        return new ExcLRT<T>(t, child);
+    }
+
+    LRT<T> leaf(T t) {
+        return new IncLRT<T>(t, new map<T*, LRT<T>>());
+    }
+
+    Node<T> getNode() {
+        return this->node;
+    }
+
+    T* getVertex() {
+        return this->node->getVertex();
+    }
+
+    bool proves(LRT *hypothesis) {
+        return false;
+    }
 
     LRT<T>(T vtx) {
         this->node = new Node<T>(vtx);
@@ -41,25 +66,17 @@ public:
 
     bool isExclusive() { return !isInclusive(); };
 
-    Node<T> getNode();
+    virtual map<T*, LRT<T>*>* getChildren();
 
-    virtual T* getVertex();
+    virtual bool isLeaf();
 
-    bool proves(LRT<T>* hypothesis);
+    virtual bool isCompatibleWith(LRT<T>* that);
 
-    virtual vector<LRT<T>>* getChildren() { return new vector<LRT<T>>(); };
+    virtual LRT<T> query(LRT<T>* q);
 
-    virtual LRT<T>* greatestLowerBound(LRT<T>* that);
+    virtual void assert(LRT<T>* assertion);
 
-    virtual LRT<T>* leastUpperBound(LRT<T>* that);
-
-    bool isCompatibleWith(LRT<T>* that);
-
-    LRT<T> query(LRT<T>* q);
-
-    void assert(LRT<T>* assertion);
-
-    void retract(LRT<T>* retraction);
+    virtual void retract(LRT<T>* retraction);
 };
 
 #endif //__LabeledRootedTree_H_
