@@ -7,15 +7,20 @@
 #define __InclusiveLRT_H_
 #include "LabeledRootedTree.h"
 
+using std::vector;
+
 template <class T>
-class InclusiveLRT : public LRT {
+class IncLRT : public LRT {
 public:
-    vector<LRT<T>>*getChildren();
-    Node<T> getNode();
-    T* getVertex();
-    bool inclusive();
+    IncLRT(T val, vector<LRT<T>>* children) : LRT<T>(val) {
+        this->children = children;
+    }
+
+    vector<LRT<T>>* getChildren();
+
+    bool isInclusive();
+
 private:
-    Node<T> node;
     vector<LRT<T>>* children;
 };
 

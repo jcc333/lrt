@@ -3,12 +3,12 @@
 // Copyright (c) 2015 clem. All rights reserved.
 //
 
-#include "InclusiveLRT.h"
+#include "IncLRT.h"
 
-bool InclusiveLRT::inclusive() {
+bool IncLRT::isInclusive() {
     return true;
 }
 
-vector<LRT<T>>* InclusiveLRT::getChildren() {
+vector<LRT<T>>*IncLRT::getChildren() {
     return this->children;
 }

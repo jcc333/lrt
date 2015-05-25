@@ -5,38 +5,25 @@
 
 #ifndef __Node_H_
 #define __Node_H_
-#endif //__Node_H_
 #include <stdexcept>
 
 template <class T>
 class Node {
-    enum NodeType { root, vertex };
 public:
-    Node() : nodeType { root }, vtx{ nullptr } {};
+    Node() : isRootSwitch { true }, vtx { nullptr } {};
 
-    Node(T t) : nodeType { vertex }, vtx{ t } {};
+    Node(T vtx) : isRootSwitch { false }, vtx { vtx } {};
 
-    bool isRoot() {
-        return this->nodeType == root;
-    };
+    bool isRoot();
 
-    bool isVertex() {
-        return this->nodeType == vtx;
-    };
+    bool isVertex();
 
-    T* getVertex() {
-        if ((*this).isVertex()) {
-            return vtx;
-        } else {
-            throw std::out_of_range("no vertex at Node::getVertex");
-        }
-    };
+    T* getVertex();
 
-    static Node Root() {
-        return *new Node<T>();
-    }
+    static Node RootNode();
 
 private:
-    const NodeType nodeType;
+    const bool isRootSwitch;
     const T vtx;
 };
+#endif //__Node_H_
