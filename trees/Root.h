@@ -13,24 +13,20 @@ using std::map;
 using std::set;
 
 template <typename T>
-class IncLRT : public VertexLRT {
+class Root : public LRT {
   private:
     map<T, LRT<T>>* children;
 
   public:
-    IncLRT(T vtx, map<T, LRT<T>>* children) : VertexLRT<T>(vtx) {
+    Root(map<T, LRT<T>>* children) {
       this->children = children;
     }
 
-    IncLRT(T vtx, map<T, LRT<T>>* children) : VertexLRT<T>(vtx) {
-      this->children = new map<T*, LRT<T>>()
+    Root() {
+      this->children = new map<T, LRT<T>*>();
     }
 
-    IncLRT(T vtx, map<T, LRT<T>>* children) : VertexLRT<T>(vtx) {
-      this->children = children;
-    }
-
-    ~IncLRT() {
+    ~Root() {
       delete(children);
     }
 
@@ -38,7 +34,11 @@ class IncLRT : public VertexLRT {
       return this->children;
     }
 
-    bool isCompatibleWith(LRT<T> *that) {
+    bool isLeaf() {
+      return ! this->getChildren()->empty();
+    }
+
+    bool isCompatibleWith(LRT<T>* that) {
       auto these = *(this->getChildren());
       auto those = *(that->getChildren());
 

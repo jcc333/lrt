@@ -16,57 +16,50 @@
 
 using std::map;
 
-template <class T>
 class LRT {
-    Node<T>* node;
-
-public:
-
-    LRT<T> root(map<T*, LRT<T>> *children) {
-        return new IncLRT<T>(children);
+  private:
+  public:
+    LRT<T> root(map<T, LRT<T>>* children) {
+      return new Root<T>(children);
     }
 
     LRT<T> root() {
-        return new IncLRT();
+      return new Root();
     }
 
-    LRT<T> inc(T* t, map<T*, LRT<T>>* children) {
-        return new IncLRT<T>(t, children);
+    LRT<T> inc(T t, map<T, LRT<T>>* children) {
+      return new IncLRT<T>(t, children);
     }
 
-    LRT<T> exc(T* t, LRT<T>* child) {
-        return new ExcLRT<T>(t, child);
+    LRT<T> exc(T t, LRT<T> child) {
+      return new ExcLRT<T>(t, child);
     }
 
     LRT<T> leaf(T t) {
-        return new IncLRT<T>(t, new map<T*, LRT<T>>());
+      return new IncLRT<T>(t);
     }
 
-    Node<T> getNode() {
-        return this->node;
-    }
-
-    T* getVertex() {
-        return this->node->getVertex();
-    }
-
-    bool proves(LRT *hypothesis) {
-        return false;
+    virtual bool proves(LRT *hypothesis) {
+      return false;
     }
 
     LRT<T>(T vtx) {
-        this->node = new Node<T>(vtx);
+      this->node = new Node<T>(vtx);
     }
 
     LRT<T>() {
-        this->node = new Node<T>();
+      this->node = new Node<T>();
+    }
+
+    bool isLeaf() {
+      return ! this->getChildren()->empty();
     }
 
     virtual bool isInclusive() { return true; }
 
     bool isExclusive() { return !isInclusive(); };
 
-    virtual map<T*, LRT<T>*>* getChildren();
+    virtual map<T, LRT<T>>* getChildren();
 
     virtual bool isLeaf();
 
