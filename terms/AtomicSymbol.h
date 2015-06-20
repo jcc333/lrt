@@ -4,18 +4,18 @@
 //
 
 
-#ifndef __AtomSymbol_H_
-#define __AtomSymbol_H_
+#ifndef __AtomicSymbol_H_
+#define __AtomicSymbol_H_
 
 
 #include "Symbol.h"
 
-class AtomSymbol : public Symbol {
+class AtomicSymbol : public Symbol {
     string* underlying;
 public:
-    AtomSymbol(string* name);
+    AtomicSymbol(string* name);
 
-    ~AtomSymbol();
+    ~AtomicSymbol();
 
     Type getType();
 
@@ -24,4 +24,4 @@ public:
     bool operator ==(Symbol that);
 };
 
-#endif //__AtomSymbol_H_
+#endif //__AtomicSymbol_H_

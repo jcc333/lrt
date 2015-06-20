@@ -3,8 +3,8 @@
 // Copyright (c) 2015 clem. All rights reserved.
 //
 
-#ifndef __InclusiveLRT_H_
-#define __InclusiveLRT_H_
+#ifndef __VertexLRT_H_
+#define __VertexLRT_H_
 
 #include <set>
 #include "LRT.h"
@@ -13,18 +13,16 @@ using std::map;
 using std::set;
 
 template <typename T>
-class VertexLRT : public LRT {
+class VertexLRT : public LRT<T> {
   private:
     T vertex;
 
   public:
-    VertexLRT(T vtx) {
-      this->vertex = vtx;
-    }
+    VertexLRT(T vtx);
 
-    ~VertexLRT() {
-      delete(T);
-    }
+    ~VertexLRT();
+
+    T getVertex();
 };
 
-#endif //__InclusiveLRT_H_
+#endif //__VertexLRT_H_

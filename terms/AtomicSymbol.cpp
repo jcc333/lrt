@@ -3,27 +3,27 @@
 // Copyright (c) 2015 clem. All rights reserved.
 //
 
-#include "AtomSymbol.h"
+#include "AtomicSymbol.h"
 
-AtomSymbol::AtomSymbol(string* name) {
+AtomicSymbol::AtomicSymbol(string* name) {
     this->underlying = name;
 }
 
-AtomSymbol::~AtomSymbol() {
+AtomicSymbol::~AtomicSymbol() {
     delete(underlying);
 }
 
-Type AtomSymbol::getType() {
+Type AtomicSymbol::getType() {
     return Symbol::Type::Atom;
 }
 
-string AtomSymbol::repr() {
+string AtomicSymbol::repr() {
     return *underlying;
 }
 
-bool AtomSymbol::operator ==(Symbol that) {
+bool AtomicSymbol::operator ==(Symbol that) {
     if (that.getType() == Atom) {
-        auto atom = ((AtomSymbol*)&that);
+        auto atom = ((AtomicSymbol*)&that);
         return *(atom->underlying) == *underlying;
     } else {
         return false;
