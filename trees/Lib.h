@@ -1,9 +1,3 @@
-//
-// Created by James Clemer on 5/17/15.
-// Copyright (c) 2015 clem. All rights reserved.
-//
-
-
 #ifndef __LIB_H_
 #define __LIB_H_
 
@@ -22,25 +16,15 @@ using std::map;
 
 class Lib {
   public:
-    LRT<Symbol>* root(map<Symbol, LRT<Symbol>>* children) {
-      return new Root<Symbol>(children);
-    }
+    LRT<Symbol>* root(map<Symbol, LRT<Symbol>>* children);
+    
+    LRT<Symbol>* root();
 
-    LRT<Symbol>* root() {
-      return new Root<Symbol>();
-    }
+    LRT<Symbol>* inc(Symbol t, map<Symbol, LRT<Symbol>>* children);
 
-    LRT<Symbol>* inc(Symbol t, map<Symbol, LRT<Symbol>>* children) {
-      return new IncLRT<Symbol>(t, children);
-    }
+    LRT<Symbol>* exc(Symbol t, LRT<Symbol> child);
 
-    LRT<Symbol>* exc(Symbol t, LRT<Symbol> child) {
-      return new ExcLRT<Symbol>(t, child);
-    }
-
-    LRT<Symbol>* leaf(Symbol t) {
-      return new IncLRT<Symbol>(t);
-    }
+    LRT<Symbol>* leaf(Symbol t);
 };
 
 #endif
