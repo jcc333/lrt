@@ -26,15 +26,15 @@ template <class T> class LRT {
 
     bool isExclusive() { return !isInclusive(); };
 
-    virtual map<T, LRT>* getChildren();
+    virtual map<T, LRT>* getChildren() =0;
 
-    virtual bool isCompatibleWith(LRT* that);
-
-    virtual LRT query(LRT* q);
-
-    virtual void assert(LRT* assertion);
-
-    virtual void retract(LRT* retraction);
+//    virtual bool isCompatibleWith(LRT* that) =0;
+//
+//    virtual LRT* query(LRT* q) =0;
+//
+//    virtual void assert(LRT* assertion) =0;
+//
+//    virtual void retract(LRT* retraction) =0;
 };
 
 #endif //__LabeledRootedTree_H_

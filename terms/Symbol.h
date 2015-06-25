@@ -12,18 +12,25 @@
 
 using std::string;
 class Symbol {
-public:
+  private:
     enum Type {
-        Integer,
-        Rational,
-        Atom
+      Integer,
+      Rational,
+      Atom
     };
 
-    virtual string repr();
+    union {
+      int integer;
+      double rational;
+      string* atom;
+    };
 
-    virtual bool operator ==(Symbol that);
+    Type type;
 
-    virtual Type getType();
+  public:
+    string repr();
+
+    bool operator ==(Symbol that);
 };
 
 #endif //__Symbol_H_

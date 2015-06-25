@@ -12,10 +12,10 @@
 
 template <typename T> class ExcLRT : public VertexLRT<T> {
   private:
-    LRT<T> child;
+    LRT<T>* child;
 
   public:
-    ExcLRT(T vtx, LRT<T> child);
+    ExcLRT(T vtx, LRT<T>* child);
 
     ~ExcLRT();
 
@@ -25,7 +25,7 @@ template <typename T> class ExcLRT : public VertexLRT<T> {
 
     bool isInclusive();
 
-    bool isCompatibleWith(LRT<T> *that);
+    bool isCompatibleWith(LRT<T>* that);
 };
 
 #endif //__ExcLRT_H_

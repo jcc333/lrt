@@ -17,7 +17,7 @@ class Root : public LRT<T> {
 
   public:
     Root(map<T, LRT<T>> *children);
-    
+
     Root();
 
     ~Root();
@@ -27,6 +27,12 @@ class Root : public LRT<T> {
     bool isLeaf();
 
     bool isCompatibleWith(LRT<T>* that);
+
+    LRT<T>* query(LRT<T>* q);
+
+    void assert(LRT<T>* assertion);
+
+    void retract(LRT<T>* retraction);
 };
 
 #endif //__InclusiveLRT_H_
