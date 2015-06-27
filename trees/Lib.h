@@ -2,29 +2,35 @@
 #define __LIB_H_
 
 #include <utility>
+#include <iostream>
 #include <map>
 #include "LRT.h"
 #include "Root.h"
 #include "ExcLRT.h"
 #include "IncLRT.h"
 #include "../terms/Symbol.h"
-#include "../terms/IntegerSymbol.h"
-#include "../terms/AtomicSymbol.h"
-#include "../terms/RationalSymbol.h"
 
 using std::map;
 
-class Lib {
-  public:
-    LRT<Symbol>* root(map<Symbol, LRT<Symbol>>* children);
-    
-    LRT<Symbol>* root();
+namespace Lib {
+  LRT<Symbol>* root(map<Symbol, LRT<Symbol>>* children) {
+    return new Root<Symbol>(children);
+  }
 
-    LRT<Symbol>* inc(Symbol t, map<Symbol, LRT<Symbol>>* children);
+  LRT<Symbol>* root() {
+    return new Root<Symbol>();
+  }
 
-    LRT<Symbol>* exc(Symbol t, LRT<Symbol> child);
+  LRT<Symbol>* inc(Symbol t, map<Symbol, LRT<Symbol>>* children) {
+    return new IncLRT<Symbol>(t, children);
+  }
 
-    LRT<Symbol>* leaf(Symbol t);
+  LRT<Symbol>* exc(Symbol t, LRT<Symbol>* child) {
+    return new ExcLRT<Symbol>(t, child);
+  }
+
+  LRT<Symbol>* leaf(Symbol t) {
+    return new IncLRT<Symbol>(t);
+  }
 };
-
 #endif

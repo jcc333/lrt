@@ -10,7 +10,7 @@ using std::map;
 using std::set;
 
 template <typename T>
-Root::Root(map<T, LRT<T> > *children) {
+Root::Root(map<T, LRT<T>> *children) {
   this->children = children;
 }
 

@@ -1,9 +1,3 @@
-//
-// Created by James Clemer on 5/23/15.
-// Copyright (c) 2015 clem. All rights reserved.
-//
-
-
 #ifndef __ExcLRT_H_
 #define __ExcLRT_H_
 
@@ -12,10 +6,10 @@
 
 template <typename T> class ExcLRT : public VertexLRT<T> {
   private:
-    LRT<T> child;
+    LRT<T>* child;
 
   public:
-    ExcLRT(T vtx, LRT<T> child);
+    ExcLRT(T vtx, LRT<T>* child);
 
     ~ExcLRT();
 
@@ -26,6 +20,16 @@ template <typename T> class ExcLRT : public VertexLRT<T> {
     bool isInclusive();
 
     bool isCompatibleWith(LRT<T> *that);
+
+    LRT<T>* query(LRT<T>* q) {
+      return this;
+    }
+
+    void assert(LRT<T>* prop) {
+    }
+    
+    void retract(LRT<T>* prop) {
+    }
 };
 
 #endif //__ExcLRT_H_

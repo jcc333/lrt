@@ -27,6 +27,16 @@ class Root : public LRT<T> {
     bool isLeaf();
 
     bool isCompatibleWith(LRT<T>* that);
+
+    LRT<T>* query(LRT<T>* q) {
+      return this;
+    }
+
+    void assert(LRT<T>* prop) {
+    }
+    
+    void retract(LRT<T>* prop) {
+    }
 };
 
 #endif //__InclusiveLRT_H_

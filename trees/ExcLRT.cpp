@@ -1,12 +1,7 @@
-//
-// Created by James Clemer on 5/23/15.
-// Copyright (c) 2015 clem. All rights reserved.
-//
-
 #include "ExcLRT.h"
 
 template <typename T>
-ExcLRT::ExcLRT(T vtx, LRT<T> child) : VertexLRT(vtx) {
+ExcLRT::ExcLRT(T vtx, LRT<T>* child) : VertexLRT(vtx) {
     this->child = child;
 }
 
@@ -31,7 +26,7 @@ bool ExcLRT::isInclusive() {
 }
 
 template <typename T>
-bool ExcLRT::isCompatibleWith(LRT<T> *that) {
+bool ExcLRT::isCompatibleWith(LRT<T>* that) {
     if (that->isLeaf()) {
         return true;
     } else if (that->isExclusive()) {

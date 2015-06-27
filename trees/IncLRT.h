@@ -1,8 +1,3 @@
-//
-// Created by James Clemer on 5/23/15.
-// Copyright (c) 2015 clem. All rights reserved.
-//
-
 #ifndef __IncLRT_H_
 #define __IncLRT_H_
 
@@ -30,6 +25,16 @@ public:
     map<T, LRT<T>>* getChildren();
 
     bool isCompatibleWith(LRT<T> *that);
+    
+    LRT<T>* query(LRT<T>* q) {
+      return this;
+    }
+
+    void assert(LRT<T>* prop) {
+    }
+    
+    void retract(LRT<T>* prop) {
+    }
 };
 
 #endif

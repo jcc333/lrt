@@ -1,9 +1,3 @@
-//
-// Created by James Clemer on 5/17/15.
-// Copyright (c) 2015 clem. All rights reserved.
-//
-
-
 #ifndef __LRT_H_
 #define __LRT_H_
 
@@ -14,27 +8,25 @@ using std::map;
 
 template <class T> class LRT {
   public:
-    virtual bool proves(LRT *hypothesis) {
+    virtual bool proves(LRT *hypothesis) { //NOT IMPLEMENTED
       return false;
     }
 
-    virtual bool isLeaf() {
-      return ! this->getChildren()->empty();
-    }
+    virtual bool isLeaf();
 
-    virtual bool isInclusive() { return true; }
+    virtual bool isInclusive();
 
-    bool isExclusive() { return !isInclusive(); };
+    bool isExclusive();
 
-    virtual map<T, LRT>* getChildren();
+    virtual map<T, LRT>* getChildren() = 0;
 
-    virtual bool isCompatibleWith(LRT* that);
+    virtual bool isCompatibleWith(LRT* that) = 0;
 
-    virtual LRT query(LRT* q);
+    virtual LRT* query(LRT* q) = 0;
 
-    virtual void assert(LRT* assertion);
+    virtual void assert(LRT* assertion) = 0;
 
-    virtual void retract(LRT* retraction);
+    virtual void retract(LRT* retraction) = 0;
 };
 
 #endif //__LabeledRootedTree_H_

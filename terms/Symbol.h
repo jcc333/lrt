@@ -1,9 +1,3 @@
-//
-// Created by James Clemer on 6/9/15.
-// Copyright (c) 2015 clem. All rights reserved.
-//
-
-
 #ifndef __Symbol_H_
 #define __Symbol_H_
 
@@ -11,19 +5,43 @@
 #include <string>
 
 using std::string;
-class Symbol {
-public:
-    enum Type {
-        Integer,
-        Rational,
-        Atom
-    };
+struct Symbol {
+  enum {
+    Integer,
+    Rational,
+    Atom
+  } type;
 
-    virtual string repr();
+  union {
+    int integer;
+    double rational;
+    const string* atom;
+  };
 
-    virtual bool operator ==(Symbol that);
+  string repr() {
+    switch(this->type) {
+      case Symbol::Integer:
+        return std::to_string(this->integer);
+      case Symbol::Rational:
+        return std::to_string(this->rational);
+      case Symbol::Atom:
+        return *(this->atom);
+    }
+  }
 
-    virtual Type getType();
+  bool operator ==(Symbol that) {
+    if (this->type == that.type) {
+      switch(this->type) {
+        case Symbol::Integer:
+          return this->integer == that.integer;
+        case Symbol::Rational:
+          return this->rational == that.rational;
+        case Symbol::Atom:
+          return this->atom == that.atom;
+      }
+    } else {
+      return false;
+    }
+  }
 };
-
 #endif //__Symbol_H_
