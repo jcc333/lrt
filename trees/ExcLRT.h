@@ -19,17 +19,7 @@ template <typename T> class ExcLRT : public VertexLRT<T> {
 
     bool isInclusive();
 
-    bool isCompatibleWith(LRT<T> *that);
-
-    LRT<T>* query(LRT<T>* q) {
-      return this;
-    }
-
-    void assert(LRT<T>* prop) {
-    }
-    
-    void retract(LRT<T>* prop) {
-    }
+    bool isCompatibleWith(LRT<T>* that);
 };
 
 #endif //__ExcLRT_H_

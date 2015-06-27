@@ -1,5 +1,5 @@
 #include <iostream>
-#include "trees/Lib.h"
+#include "Lib.h"
 
 int main() {
   auto root = Lib::root();

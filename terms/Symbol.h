@@ -5,6 +5,7 @@
 #include <string>
 
 using std::string;
+
 struct Symbol {
   enum {
     Integer,
