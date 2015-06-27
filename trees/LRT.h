@@ -8,19 +8,25 @@ using std::map;
 
 template <class T> class LRT {
   public:
-    virtual bool proves(LRT *hypothesis) { //NOT IMPLEMENTED
+    virtual bool proves(LRT* hypothesis) { //NOT IMPLEMENTED
       return false;
     }
 
-    virtual bool isLeaf();
-
-    virtual bool isInclusive();
-
-    bool isExclusive();
-
     virtual map<T, LRT>* getChildren() =0;
 
-//    virtual bool isCompatibleWith(LRT* that) =0;
+    bool isLeaf() {
+      return ! this->getChildren()->empty();
+    }
+
+    virtual bool isInclusive() {
+      return true; 
+    }
+
+    virtual bool isExclusive() {
+      return !isInclusive();
+    }
+
+    virtual bool isCompatibleWith(LRT* that) =0;
 //
 //    virtual LRT* query(LRT* q) =0;
 //

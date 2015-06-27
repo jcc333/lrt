@@ -14,7 +14,7 @@ using std::map;
 
 namespace Lib {
   LRT<Symbol>* root(map<Symbol, LRT<Symbol>>* children) {
-    return new Root<Symbol>(children);
+    return new Root<Symbol> { children };
   }
 
   LRT<Symbol>* root() {

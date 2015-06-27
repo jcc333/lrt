@@ -14,26 +14,67 @@ private:
     map<T, LRT<T>>* children;
 
 public:
-    IncLRT(T vtx, map<T, LRT<T>>* children);
-
-    IncLRT(T vtx, LRT<T> child);
-
-    IncLRT(T vtx);
-
-    ~IncLRT();
-
-    map<T, LRT<T>>* getChildren();
-
-    bool isCompatibleWith(LRT<T> *that);
-    
-    LRT<T>* query(LRT<T>* q) {
-      return this;
+    IncLRT(T vtx, map<T, LRT<T>>* children) : VertexLRT<T>(vtx) {
+      this->children = children;
     }
 
-    void assert(LRT<T>* prop) {
+
+    IncLRT(T vtx, VertexLRT<T>* link) : VertexLRT<T>(vtx) {
+      auto kids = new map<T*, LRT<T>>();
+      kids[link->getVertex()] = link;
+      this->children = kids;
     }
-    
-    void retract(LRT<T>* prop) {
+
+
+    IncLRT(T vtx) : VertexLRT<T>(vtx) {
+      this->children = new map<T*, LRT<T>>();
+    }
+
+    ~IncLRT() {
+      delete(children);
+    }
+
+
+    map<T, LRT<T>>* getChildren() {
+      return this->children;
+    }
+
+
+    bool isCompatibleWith(LRT<T>* that) {
+      auto these = *(this->getChildren());
+      auto those = *(that->getChildren());
+
+      //incidence set to avoid redundant comparisons
+      auto seenKeys = new set<T>();
+
+      //these children are compatible with that's
+      for (auto &lc: these) {
+        T key = &lc.first;
+        LRT<T>* tree = lc.second;
+        LRT<T>* rc = those.find(key);
+        if (rc != these.end()) {
+          if (!tree->isCompatibleWith(rc)) {
+            return false;
+          } else {
+            seenKeys->insert(key);
+          }
+        }
+      }
+
+      //that's children are compatible with these
+      for (auto &rc: those) {
+        if (!seenKeys->count(&rc.first)) {
+          T key = &rc.first;
+          LRT<T>* tree = rc.second;
+          LRT<T>* lc = those.find(key);
+          if (lc != these.end()) {
+            if (! tree->isCompatibleWith(lc)) {
+              return false;
+            }
+          }
+        }
+      }
+      return true;
     }
 };
 

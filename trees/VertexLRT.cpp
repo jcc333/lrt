@@ -5,16 +5,3 @@
 
 #include "VertexLRT.h"
 
-template <typename T>
-VertexLRT::VertexLRT(T vtx) {
-  this->vertex = vtx;
-}
-
-VertexLRT::~VertexLRT<T>() {
-  delete(vertex);
-}
-
-template <typename T>
-T VertexLRT::getVertex() {
-  return vertex;
-}

@@ -18,11 +18,17 @@ class VertexLRT : public LRT<T> {
     T vertex;
 
   public:
-    VertexLRT(T vtx);
+    VertexLRT(T vtx) {
+      this->vertex = vtx;
+    }
 
-    ~VertexLRT();
+    ~VertexLRT() {
+      delete(vertex);
+    }
 
-    T getVertex();
+    T getVertex() {
+      return vertex;
+    }
 };
 
 #endif //__VertexLRT_H_
