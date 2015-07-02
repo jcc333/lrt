@@ -22,10 +22,6 @@ class VertexLRT : public LRT<T> {
       this->vertex = vtx;
     }
 
-    ~VertexLRT() {
-      delete(vertex);
-    }
-
     T getVertex() {
       return vertex;
     }

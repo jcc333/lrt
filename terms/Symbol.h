@@ -10,7 +10,8 @@ struct Symbol {
   enum {
     Integer,
     Rational,
-    Atom
+    Atom,
+    Nil
   } type;
 
   union {
@@ -18,6 +19,14 @@ struct Symbol {
     double rational;
     const string* atom;
   };
+
+  Symbol() : type(Symbol::Nil), atom(new string("Nil")) {}
+
+  Symbol(int i) : type(Symbol::Integer), integer(i) {}
+
+  Symbol(double d) : type(Symbol::Rational), rational(d) {}
+
+  Symbol(string* s) : type(Symbol::Atom), atom(s) {}
 
   string repr() {
     switch(this->type) {
@@ -27,6 +36,8 @@ struct Symbol {
         return std::to_string(this->rational);
       case Symbol::Atom:
         return *(this->atom);
+      case Symbol::Nil:
+        return "NIL";
     }
   }
 
@@ -39,7 +50,14 @@ struct Symbol {
           return this->rational == that.rational;
         case Symbol::Atom:
           return this->atom == that.atom;
+        default:
+          return true;
       }
+    } else if ((this->type == Symbol::Nil && that.type == Symbol::Atom)
+        || (this->type == Symbol::Atom && that.type == Symbol::Nil)) {
+      return this->atom == that.atom;
+    } else if (this->type == Symbol::Atom && that.type == Symbol::Nil) {
+      return this->atom == that.atom;
     } else {
       return false;
     }
