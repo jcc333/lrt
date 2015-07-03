@@ -41,7 +41,7 @@ struct Symbol {
     }
   }
 
-  bool operator ==(Symbol that) {
+  bool operator ==(Symbol that) const {
     if (this->type == that.type) {
       switch(this->type) {
         case Symbol::Integer:
@@ -62,5 +62,42 @@ struct Symbol {
       return false;
     }
   }
+
+  bool operator >(Symbol that) const {
+    if (this->type == that.type) {
+      switch(this->type) {
+        case Symbol::Integer:
+          return this->integer > that.integer;
+        case Symbol::Rational:
+          return this->rational > that.rational;
+        case Symbol::Atom:
+          return this->atom > that.atom;
+        default:
+          return true;
+      }
+    } else {
+      switch(this->type) {
+        case Symbol::Atom:
+          return true;
+        case Symbol::Rational:
+          return !(that.type == Symbol::Atom);
+        case Symbol::Integer:
+          return !(that.type == Symbol::Atom || that.type == Symbol::Rational);
+        default:
+          return false;
+      }
+    }
+  }
+
+  bool operator >=(Symbol that) const {
+    return (*this == that) || (*this > that);
+  }
+  bool operator <(Symbol that) const {
+    return !(*this == that) && !(*this > that);
+  }
+  bool operator <=(Symbol that) const {
+    return (*this == that) || (*this < that);
+  }
+
 };
 #endif //__Symbol_H_

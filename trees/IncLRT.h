@@ -11,31 +11,35 @@ using std::set;
 template <typename T>
 class IncLRT : public VertexLRT<T> {
 private:
-    map<T, LRT<T>>* children;
+    map<T, VertexLRT<T>*>* children;
 
 public:
-    IncLRT(T vtx, map<T, LRT<T>>* children) : VertexLRT<T>(vtx) {
+    IncLRT(T vtx, map<T, VertexLRT<T>*>* children) : VertexLRT<T>(vtx) {
       this->children = children;
     }
 
-
     IncLRT(T vtx, VertexLRT<T>* link) : VertexLRT<T>(vtx) {
-      auto kids = new map<T*, LRT<T>>();
-      kids[link->getVertex()] = link;
+      auto kids = new map<T*, VertexLRT<T>*>();
+      kids->emplace(link->getVertex(), link);
       this->children = kids;
     }
 
-
-    IncLRT(T vtx) : VertexLRT<T>(vtx) {
-      this->children = new map<T*, LRT<T>>();
+    bool isLeaf() {
+      return this->children->empty();
     }
+
+    bool isInclusive() {
+      return true;
+    }
+
+    IncLRT(T vtx) : VertexLRT<T>(vtx), children(new map<T, VertexLRT<T>*>()) {}
 
     ~IncLRT() {
       delete(children);
     }
 
 
-    map<T, LRT<T>>* getChildren() {
+    map<T, VertexLRT<T>*>* getChildren() {
       return this->children;
     }
 
@@ -49,10 +53,11 @@ public:
 
       //these children are compatible with that's
       for (auto &lc: these) {
-        T key = &lc.first;
+        T key = lc.first;
         LRT<T>* tree = lc.second;
-        LRT<T>* rc = those.find(key);
-        if (rc != these.end()) {
+        auto rcIter = those.find(key);
+        if (rcIter != these.end()) {
+          auto rc = rcIter->second;
           if (!tree->isCompatibleWith(rc)) {
             return false;
           } else {
@@ -63,11 +68,12 @@ public:
 
       //that's children are compatible with these
       for (auto &rc: those) {
-        if (!seenKeys->count(&rc.first)) {
-          T key = &rc.first;
+        if (!seenKeys->count(rc.first)) {
+          T key = rc.first;
           LRT<T>* tree = rc.second;
-          LRT<T>* lc = those.find(key);
-          if (lc != these.end()) {
+          auto lcIter = those.find(key);
+          if (lcIter != these.end()) {
+            auto lc = lcIter->second;
             if (! tree->isCompatibleWith(lc)) {
               return false;
             }

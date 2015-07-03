@@ -6,27 +6,25 @@
 
 using std::map;
 
-template <class T> class LRT {
+template <typename T> class VertexLRT;
+
+template <typename T> class LRT {
   public:
-    virtual bool proves(LRT* hypothesis) { //NOT IMPLEMENTED
+    virtual bool proves(LRT* hypothesis) {
       return false;
     }
+    
+    virtual map<T, VertexLRT<T>*>* getChildren() = 0;
 
-    virtual map<T, LRT>* getChildren() =0;
+    virtual bool isLeaf() = 0;
 
-    bool isLeaf() {
-      return ! this->getChildren()->empty();
-    }
-
-    virtual bool isInclusive() {
-      return true; 
-    }
+    virtual bool isInclusive() = 0;
 
     virtual bool isExclusive() {
       return !isInclusive();
     }
 
-    virtual bool isCompatibleWith(LRT* that) =0;
+    virtual bool isCompatibleWith(LRT* that) = 0;
 //
 //    virtual LRT* query(LRT* q) =0;
 //
@@ -35,4 +33,4 @@ template <class T> class LRT {
 //    virtual void retract(LRT* retraction) =0;
 };
 
-#endif //__LabeledRootedTree_H_
+#endif

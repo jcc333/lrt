@@ -6,10 +6,10 @@
 
 template <typename T> class ExcLRT : public VertexLRT<T> {
   private:
-    LRT<T>* child;
+    VertexLRT<T>* child;
 
   public:
-    ExcLRT(T vtx, LRT<T>* child) : VertexLRT<T>(vtx) {
+    ExcLRT(T vtx, VertexLRT<T>* child) : VertexLRT<T>(vtx) {
       this->child = child;
     }
 
@@ -17,9 +17,9 @@ template <typename T> class ExcLRT : public VertexLRT<T> {
       delete(child);
     }
 
-    map<T, LRT<T>>* getChildren() {
-      auto children = new map<T, LRT<T>>();
-      (*children)[child->getVertex()] = &child;
+    map<T, VertexLRT<T>*>* getChildren() {
+      auto children = new map<T, VertexLRT<T>*>();
+      (*children)[child->getVertex()] = child;
       return children;
     }
 
@@ -31,12 +31,16 @@ template <typename T> class ExcLRT : public VertexLRT<T> {
       return false;
     }
 
+    bool isLeaf() {
+      return false;
+    }
+
     bool isCompatibleWith(LRT<T>* that) {
       if (that->isLeaf()) {
         return true;
       } else if (that->isExclusive()) {
         auto match = & ((ExcLRT*) that)->child;
-        return this->child.isCompatibleWith(match);
+        return this->child->isCompatibleWith(*match);
       } else {
         return false;
       }

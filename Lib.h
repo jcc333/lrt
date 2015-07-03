@@ -12,23 +12,23 @@
 using std::map;
 
 namespace Lib {
-  LRT<Symbol>* root(map<Symbol, LRT<Symbol>>* children) {
+  Root<Symbol>* root(map<Symbol, VertexLRT<Symbol>*>* children) {
     return new Root<Symbol>(children);
   }
 
-  LRT<Symbol>* root() {
+  Root<Symbol>* root() {
     return new Root<Symbol>();
   }
 
-  LRT<Symbol>* inc(Symbol sym, map<Symbol, LRT<Symbol>>* children) {
+  IncLRT<Symbol>* inc(Symbol sym, map<Symbol, VertexLRT<Symbol>*>* children) {
     return new IncLRT<Symbol>(sym, children);
   }
 
-  LRT<Symbol>* exc(Symbol sym, LRT<Symbol>* child) {
+  ExcLRT<Symbol>* exc(Symbol sym, VertexLRT<Symbol>* child) {
     return new ExcLRT<Symbol>(sym, child);
   }
 
-  LRT<Symbol>* leaf(Symbol sym) {
+  IncLRT<Symbol>* leaf(Symbol sym) {
     return new IncLRT<Symbol>(sym);
   }
 };

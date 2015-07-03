@@ -6,7 +6,9 @@
 #ifndef __InclusiveLRT_H_
 #define __InclusiveLRT_H_
 
+#include <set>
 #include "LRT.h"
+#include "VertexLRT.h"
 
 using std::set;
 using std::map;
@@ -14,24 +16,22 @@ using std::map;
 template <typename T> 
 class Root : public LRT<T> {
   private:
-    map<T, LRT<T>> *children;
+    map<T, VertexLRT<T>*>* children;
 
   public:
-    Root(map<T, LRT<T>> *children) {
-      this->children = children;
-    }
+    Root(map<T, VertexLRT<T>*>* children) : children(children) {}
 
-
-    Root() {
-      this->children = new map<T, LRT<T>>();
-    }
+    Root() : children(new map<T, VertexLRT<T>*>()) {}
 
     ~Root() {
       delete children;
     }
 
+    bool isInclusive() {
+      return true;
+    }
 
-    map<T, LRT<T>>* getChildren() {
+    map<T, VertexLRT<T>*>* getChildren() {
       return this->children;
     }
 
@@ -39,13 +39,12 @@ class Root : public LRT<T> {
       return ! this->getChildren()->empty();
     }
 
-
     bool isCompatibleWith(LRT<T>* that) {
       auto these = *(this->getChildren());
       auto those = *(that->getChildren());
 
       //incidence set to avoid redundant comparisons
-      auto seenKeys = new map<T, bool>();
+      auto seenKeys = new set<T>();
 
       //these children are compatible with that's
       for (auto lc: these) {
@@ -53,10 +52,10 @@ class Root : public LRT<T> {
         auto tree = lc.second;
         auto rc = those.find(key);
         if (rc != these.end()) {
-          if (!tree->isCompatibleWith(rc)) {
+          if (!tree->isCompatibleWith(rc->second)) {
             return false;
           } else {
-            seenKeys->insert(key, true);
+            seenKeys->insert(key);
           }
         }
       }
@@ -68,7 +67,7 @@ class Root : public LRT<T> {
           auto tree = rc.second;
           auto lc = those.find(key);
           if (lc != these.end()) {
-            if (! tree->isCompatibleWith(lc)) {
+            if (! tree->isCompatibleWith(lc->second)) {
               return false;
             }
           }
@@ -78,4 +77,4 @@ class Root : public LRT<T> {
     }
 };
 
-#endif //__InclusiveLRT_H_
+#endif
