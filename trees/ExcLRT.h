@@ -4,27 +4,23 @@
 #include "LRT.h"
 #include "VertexLRT.h"
 
-template <typename T> class ExcLRT : public VertexLRT<T> {
+class ExcLRT : public VertexLRT {
   private:
-    VertexLRT<T>* child;
+    VertexLRT* child;
 
   public:
-    ExcLRT(T vtx, VertexLRT<T>* child) : VertexLRT<T>(vtx) {
+    ExcLRT(Symbol vtx, VertexLRT* child) : VertexLRT(vtx) {
       this->child = child;
     }
 
-    ~ExcLRT() {
-      delete(child);
-    }
-
-    map<T, VertexLRT<T>*>* getChildren() {
-      auto children = new map<T, VertexLRT<T>*>();
+    map<Symbol, VertexLRT*>* getChildren() {
+      auto children = new map<Symbol, VertexLRT*>();
       (*children)[child->getVertex()] = child;
       return children;
     }
 
-    LRT<T>* getChild() {
-      return &(this->child);
+    LRT* getChild() {
+      return this->child;
     }
 
     bool isInclusive() {
@@ -35,7 +31,7 @@ template <typename T> class ExcLRT : public VertexLRT<T> {
       return false;
     }
 
-    bool isCompatibleWith(LRT<T>* that) {
+    bool isCompatibleWith(LRT* that) {
       if (that->isLeaf()) {
         return true;
       } else if (that->isExclusive()) {

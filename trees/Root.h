@@ -8,20 +8,20 @@
 
 #include <set>
 #include "LRT.h"
+#include "NilLRT.h"
 #include "VertexLRT.h"
 
 using std::set;
 using std::map;
 
-template <typename T> 
-class Root : public LRT<T> {
+class Root : public LRT {
   private:
-    map<T, VertexLRT<T>*>* children;
+    map<Symbol, VertexLRT*>* children;
 
   public:
-    Root(map<T, VertexLRT<T>*>* children) : children(children) {}
+    Root(map<Symbol, VertexLRT*>* children) : children(children) {}
 
-    Root() : children(new map<T, VertexLRT<T>*>()) {}
+    Root() : children(new map<Symbol, VertexLRT*>()) {}
 
     ~Root() {
       delete children;
@@ -31,7 +31,7 @@ class Root : public LRT<T> {
       return true;
     }
 
-    map<T, VertexLRT<T>*>* getChildren() {
+    map<Symbol, VertexLRT*>* getChildren() {
       return this->children;
     }
 
@@ -39,16 +39,16 @@ class Root : public LRT<T> {
       return ! this->getChildren()->empty();
     }
 
-    bool isCompatibleWith(LRT<T>* that) {
+    bool isCompatibleWith(LRT* that) {
       auto these = *(this->getChildren());
       auto those = *(that->getChildren());
 
       //incidence set to avoid redundant comparisons
-      auto seenKeys = new set<T>();
+      auto seenKeys = new set<Symbol>();
 
       //these children are compatible with that's
       for (auto lc: these) {
-        T key = lc.first;
+        Symbol key = lc.first;
         auto tree = lc.second;
         auto rc = those.find(key);
         if (rc != these.end()) {
@@ -63,7 +63,7 @@ class Root : public LRT<T> {
       //that's children are compatible with these
       for (auto rc: those) {
         if (!seenKeys->count(rc.first)) {
-          T key = rc.first;
+          Symbol key = rc.first;
           auto tree = rc.second;
           auto lc = those.find(key);
           if (lc != these.end()) {
@@ -74,6 +74,20 @@ class Root : public LRT<T> {
         }
       }
       return true;
+    }
+    
+    LRT* query(LRT* q) {
+      if (this->proves(q)) {
+        return new Root();
+      } else {
+        return new Root(Symbol(), new NilLRT());
+      }
+    }
+
+    void assert(LRT* assertion) {
+    }
+
+    void retract(LRT* retraction) {
     }
 };
 

@@ -3,18 +3,19 @@
 
 #include <utility>
 #include <map>
+#include "../terms/Symbol.h"
 
 using std::map;
 
-template <typename T> class VertexLRT;
+class VertexLRT;
 
-template <typename T> class LRT {
+class LRT {
   public:
     virtual bool proves(LRT* hypothesis) {
       return false;
     }
     
-    virtual map<T, VertexLRT<T>*>* getChildren() = 0;
+    virtual map<Symbol, VertexLRT*>* getChildren() = 0;
 
     virtual bool isLeaf() = 0;
 
@@ -25,12 +26,12 @@ template <typename T> class LRT {
     }
 
     virtual bool isCompatibleWith(LRT* that) = 0;
-//
-//    virtual LRT* query(LRT* q) =0;
-//
-//    virtual void assert(LRT* assertion) =0;
-//
-//    virtual void retract(LRT* retraction) =0;
+
+    virtual LRT* query(LRT* q) = 0; //return the sub-tree that matches the query
+
+    virtual void assert(LRT* assertion) = 0; //assert/override the contradictions
+
+    virtual void retract(LRT* retraction) = 0; //remove the tree
 };
 
 #endif

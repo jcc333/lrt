@@ -2,7 +2,7 @@
 #include "Lib.h"
 
 int main() {
-  auto root = Root<Symbol>();
+  auto root = Root();
   std::cout << "Hello, world!";
   return 0;
 }

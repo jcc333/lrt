@@ -8,21 +8,21 @@
 
 #include <set>
 #include "LRT.h"
+#include "../terms/Symbol.h"
 
 using std::map;
 using std::set;
 
-template <typename T>
-class VertexLRT : public LRT<T> {
+class VertexLRT : public LRT {
   private:
-    T vertex;
+    Symbol vertex;
 
   public:
-    VertexLRT(T vtx) {
+    VertexLRT(Symbol vtx) {
       this->vertex = vtx;
     }
 
-    T getVertex() {
+    Symbol getVertex() {
       return vertex;
     }
 };
