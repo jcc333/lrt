@@ -4,23 +4,23 @@
 #include <utility>
 #include <map>
 #include "trees/LRT.h"
-#include "trees/Root.h"
 #include "trees/ExcLRT.h"
 #include "trees/IncLRT.h"
+#include "trees/NilLRT.h"
 #include "terms/Symbol.h"
 
 using std::map;
 
 namespace Lib {
-  Root* root(map<Symbol, VertexLRT*>* children) {
-    return new Root(children);
+  IncLRT* inc() {
+    return new IncLRT(new map<Symbol, LRT*>());
+  }
+  
+  IncLRT* root() {
+    return inc();
   }
 
-  Root* root() {
-    return new Root();
-  }
-
-  IncLRT* inc(Symbol sym, map<Symbol, VertexLRT*>* children) {
+  IncLRT* inc(map<Symbol, VertexLRT*>* children) {
     return new IncLRT(sym, children);
   }
 

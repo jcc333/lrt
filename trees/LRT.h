@@ -10,12 +10,28 @@ using std::map;
 class VertexLRT;
 
 class LRT {
+  friend bool operator <(const LRT& l, const LRT& r) {
+    return l < r;
+  }
+
+  friend bool operator <=(const LRT& l, const LRT& r) {
+    return l <= r;
+  }
+
+  friend bool operator >(const LRT& l, const LRT& r) {
+    return l > r;
+  }
+
+  friend bool operator >=(const LRT& l, const LRT& r) {
+    return l >= r;
+  }
+
   public:
     virtual bool proves(LRT* hypothesis) {
       return false;
     }
     
-    virtual map<Symbol, VertexLRT*>* getChildren() = 0;
+    virtual map<Symbol, LRT*>* getChildren() = 0;
 
     virtual bool isLeaf() = 0;
 
@@ -32,6 +48,7 @@ class LRT {
     virtual void assert(LRT* assertion) = 0; //assert/override the contradictions
 
     virtual void retract(LRT* retraction) = 0; //remove the tree
+
 };
 
 #endif

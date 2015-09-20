@@ -41,6 +41,18 @@ class ExcLRT : public VertexLRT {
         return false;
       }
     }
+
+    bool proves(LRT* q) {
+    }
+
+    LRT* query(LRT* q) {
+    }
+
+    void assert(LRT* assertion) {
+    }
+
+    void retract(LRT* retraction) {
+    }
 };
 
 #endif //__ExcLRT_H_

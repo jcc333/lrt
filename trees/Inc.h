@@ -14,13 +14,13 @@ private:
     map<Symbol, VertexLRT*>* children;
 
 public:
-    IncLRT(Symbol vtx, map<Symbol, VertexLRT*>* children) : VertexLRT(vtx) {
+    IncLRT(map<Symbol, VertexLRT*>* children) : VertexLRT(vtx) {
       this->children = children;
     }
 
     IncLRT(Symbol vtx, VertexLRT* link) : VertexLRT(vtx) {
       auto kids = new map<Symbol, VertexLRT*>();
-      kids->emplace(link->getVertex(), link);
+      kids->emplace(link->vtx, link);
       this->children = kids;
     }
 
@@ -32,24 +32,20 @@ public:
       return true;
     }
 
-    IncLRT(Symbol vtx) : VertexLRT(vtx), children(new map<Symbol, VertexLRT*>()) {}
+    IncLRT() : children(new map<Symbol, VertexLRT*>()) {}
 
     ~IncLRT() {
       delete(children);
     }
 
-
     map<Symbol, VertexLRT*>* getChildren() {
       return this->children;
     }
 
-
     bool isCompatibleWith(LRT* that) {
       auto these = *(this->getChildren());
       auto those = *(that->getChildren());
-
-      //incidence set to avoid redundant comparisons
-      auto seenKeys = new set<Symbol>();
+      auto seen = new set<Symbol>();
 
       //these children are compatible with that's
       for (auto &lc: these) {
@@ -61,14 +57,13 @@ public:
           if (!tree->isCompatibleWith(rc)) {
             return false;
           } else {
-            seenKeys->insert(key);
+            seen->insert(key);
           }
         }
       }
-
       //that's children are compatible with these
       for (auto &rc: those) {
-        if (!seenKeys->count(rc.first)) {
+        if (!seen->count(rc.first)) {
           auto key = rc.first;
           LRT* tree = rc.second;
           auto lcIter = those.find(key);
@@ -81,6 +76,21 @@ public:
         }
       }
       return true;
+    }
+
+    bool operator <(LRT& r) {
+    }
+
+    bool proves(LRT* q) {
+    }
+
+    LRT* query(LRT* q) {
+    }
+
+    void assert(LRT* assertion) {
+    }
+
+    void retract(LRT* retraction) {
     }
 };
 
